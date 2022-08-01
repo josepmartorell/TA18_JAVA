@@ -15,7 +15,7 @@ public class Fastjack {
 	/**
 	 * Creates a connection
 	 */
-	public Connection connection(String ip, String database, String username, String password) {
+	public Connection connection(String ip, String username, String password) {
 
 		Connection c = null;
 
@@ -69,8 +69,6 @@ public class Fastjack {
 			System.out.println("Error code: " + e.getErrorCode() + "Message: " + e.getMessage() + "SQL State: "
 					+ e.getSQLState() + "Cause: " + e.getCause());
 			System.out.println("Error creating the database");
-		} finally {
-			closeConnection(con);
 		}
 	}
 	
@@ -80,9 +78,15 @@ public class Fastjack {
 	 */
 	public void createTable(Connection con, String dbName, String tableName, String query) throws ClassNotFoundException {
 		try {
+			
+			
 			String queryDB = "use " + dbName + ";";
 			Statement stdb = con.createStatement();
 			stdb.executeUpdate(queryDB);
+			
+//			String queryDB1 = "drop table if exists " + tableName + ";";
+//			Statement stdb1 = con.createStatement();
+//			stdb.executeUpdate(queryDB1);
 
 			Statement st = con.createStatement();
 			st.executeUpdate(query);
@@ -96,9 +100,21 @@ public class Fastjack {
 	
 	/**
 	 * Inserts register
+	 * @throws ClassNotFoundException 
 	 */
-	public void insertData(Connection con, String dbName, String tableName, String query) {
-		
+	public void insertData(Connection con, String dbName, String tableName, String query) throws ClassNotFoundException {
+		try {
+			String queryDB = "use " + dbName + ";";
+			Statement stdb = con.createStatement();
+			stdb.executeUpdate(queryDB);
+
+			Statement st = con.createStatement();
+			st.executeUpdate(query);
+			JOptionPane.showMessageDialog(null, "Data stored correctly!");
+		} catch (SQLException ex) {
+			System.out.println(ex.getMessage());
+			JOptionPane.showMessageDialog(null, "Error creating table.");
+		}
 	}
 	
 }

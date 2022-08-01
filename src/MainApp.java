@@ -5,9 +5,8 @@ import javax.swing.JOptionPane;
 public class MainApp {
 
 	final static String user = "remote";
-	final static String pass = "abcd1234";
-	final static String dbase = "actividades";
-	final static String ip = "jdbc:mysql://192.168.1.31:3306?useTimezone=true&serverTimezone=UTC";
+	final static String pass = "Kiku2014-";
+	final static String ip = "jdbc:mysql://192.168.1.129:3306?useTimezone=true&serverTimezone=UTC";
 	final static String dbName = "TA18_DB";
 
 	// Initialize class MySQL to use its methods
@@ -40,8 +39,7 @@ public class MainApp {
 	 * @throws ClassNotFoundException 
 	 */
 	public static void initializeMenu() throws ClassNotFoundException {
-		// Before start, we create the database for all the exercises
-		createExerciseDatabase();
+		
 
 		// Menu options
 		final String options = "Choose the database theme you want to create:" + "\n1 - Tienda informatica"
@@ -61,7 +59,7 @@ public class MainApp {
 				executeExercise1();
 				break;
 			case "2":
-				//executeExercise2();
+				executeExercise2();
 				break;
 			case "3":
 				//executeExercise3();
@@ -73,7 +71,7 @@ public class MainApp {
 				//executeExercise5();
 				break;
 			case "6":
-				//executeExercise6();
+				executeExercise6();
 				break;
 			case "7":
 				//executeExercise7();
@@ -82,7 +80,7 @@ public class MainApp {
 				//executeExercise8();
 				break;
 			case "9":
-				//executeExercise9();
+				executeExercise9();
 				break;
 			default:
 				JOptionPane.showMessageDialog(null, "The value introduced is incorrect.", "VALUE ERROR", 0);
@@ -92,31 +90,20 @@ public class MainApp {
 	}
 
 	/**
-	 * This method creates the database for all the exercises
-	 * @throws ClassNotFoundException 
-	 */
-	public static void createExerciseDatabase() throws ClassNotFoundException {
-		// We do the connection
-		Connection con = jack.connection(ip, dbase, user, pass);
-
-		// We initialize the query to create the database
-		String query = "CREATE DATABASE  IF NOT EXISTS `TA18_DB`;";
-		jack.createDB(dbName, con, query);
-	}
-
-	/**
 	 * This method executes the first exercise of the task
 	 * @throws ClassNotFoundException 
 	 */
 	public static void executeExercise1() throws ClassNotFoundException {
-		// We initialize a String with the name of the database
-		
 
 		// We do the connection
-		Connection con = jack.connection(ip, dbase, user, pass);
+		Connection con = jack.connection(ip, user, pass);
+		
+		// We initialize the query to create the database
+		String query = "CREATE DATABASE  IF NOT EXISTS `TA18_DB`;";
+		jack.createDB(dbName, con, query);
 
 		// We create the tables
-		String query = "CREATE TABLE `fabricantes` (`CODIGO` int NOT NULL, `NOMBRE` varchar(255) NOT NULL, PRIMARY KEY (`CODIGO`));";
+		query = "CREATE TABLE `fabricantes` (`CODIGO` int NOT NULL, `NOMBRE` varchar(255) NOT NULL, PRIMARY KEY (`CODIGO`));";
 		String tableName = "fabricantes";
 		jack.createTable(con, dbName, tableName, query);
 
@@ -125,11 +112,151 @@ public class MainApp {
 		jack.createTable(con, dbName, tableName, query);
 
 		// Finally we insert registers into the tables
-		query = "INSERT INTO `articulos` VALUES (1,'Hard drive',240,5),(2,'Memory',120,6),(3,'ZIP drive',150,4),(4,'Floppy disk',5,6),(5,'Monitor',240,1);";
-		jack.insertData(con, dbName, tableName, query);
-
 		query = "INSERT INTO `fabricantes` VALUES (1,'Sony'),(2,'Creative Labs'),(3,'Hewlett-Packard'),(4,'Iomega'),(5,'Fujitsu'),(6,'Winchester');";
 		tableName = "fabricantes";
+		jack.insertData(con, dbName, tableName, query);
+		
+		query = "INSERT INTO `articulos` VALUES (1,'Hard drive',240,5),(2,'Memory',120,6),(3,'ZIP drive',150,4),(4,'Floppy disk',5,6),(5,'Monitor',240,1);";
+		tableName = "articulos";
+		jack.insertData(con, dbName, tableName, query);
+
+		// Finally we close the connection
+		jack.closeConnection(con);
+
+		// We show a message if everything went well
+		JOptionPane.showMessageDialog(null, "The inserts have been correct.");
+	}
+	
+	/**
+	 * This method executes the second exercise of the task
+	 */
+	public static void executeExercise2() throws ClassNotFoundException{
+
+		// We do the connection
+		Connection con = jack.connection(ip, user, pass);
+		
+		// We initialize the query to create the database
+		String query = "CREATE DATABASE  IF NOT EXISTS `TA18_DB`;";
+		jack.createDB(dbName, con, query);
+
+		// We create the tables
+		query = "create table Departamentos (codigo int, nombre nvarchar(100), presupuesto int, primary key (codigo));";
+		String tableName = "Departamentos";
+		jack.createTable(con, dbName, tableName, query);
+
+		query = "create table Empleados (dni int, nombre nvarchar(100), apellidos nvarchar(255), departamento int, primary key (dni), foreign key (departamento) references Departamentos (codigo));";
+		tableName = "Empleados";
+		jack.createTable(con, dbName, tableName, query);
+
+		// Finally we insert registers into the tables
+		query = "insert into Departamentos (codigo, nombre, presupuesto) values (1, 'depart1', 50000), (2, 'depart2', 60000), (3, 'depart3', 80000);";
+		tableName = "Departamentos";
+		jack.insertData(con, dbName, tableName, query);
+
+		query = "insert into Empleados (dni, nombre, apellidos, departamento) values (1, 'emple1', 'apel1', 1), (2, 'emple2', 'apel2', 1), (3, 'emple3', 'apel3', 2);";
+		tableName = "Empleados";
+		jack.insertData(con, dbName, tableName, query);
+
+		// Finally we close the connection
+		jack.closeConnection(con);
+
+		// We show a message if everything went well
+		JOptionPane.showMessageDialog(null, "The inserts have been correct.");
+	}
+	
+	/**
+	 * This method executes the sixth exercise of the task
+	 */
+	public static void executeExercise6() throws ClassNotFoundException{
+
+		// We do the connection
+		Connection con = jack.connection(ip, user, pass);
+		
+		// We initialize the query to create the database
+		String query = "CREATE DATABASE  IF NOT EXISTS `TA18_DB`;";
+		jack.createDB(dbName, con, query);
+
+		// We create the tables
+		query = "create table piezas (Codigo int auto_increment, Nombre nvarchar(100) not null, constraint pk_piezas primary key (codigo));";
+		String tableName = "piezas";
+		jack.createTable(con, dbName, tableName, query);
+
+		query = "CREATE TABLE proveedores ( Id char(4), Nombre nvarchar(100) not null, constraint pk_proveedores  primary key (id));";
+		tableName = "proveedores";
+		jack.createTable(con, dbName, tableName, query);
+		
+		query = "CREATE TABLE suministra ( CodigoPieza int, IdProveedor char(4), Precio int, constraint foreign key (CodigoPieza) REFERENCES piezas (Codigo) on delete cascade on update cascade, constraint foreign key (IdProveedor) REFERENCES proveedores (Id) on delete cascade on update cascade, constraint primary key(codigoPieza, idProveedor));";
+		tableName = "suministra";
+		jack.createTable(con, dbName, tableName, query);
+
+		// Finally we insert registers into the tables
+		query = "insert piezas (Nombre) values ('Pieza 1'), ('Pieza 2'), ('Pieza 3'), ('Pieza 4'), ('Pieza 5'), ('Pieza 6'), ('Pieza 7'), ('Pieza 8'), ('Pieza 9'), ('Pieza 10');";
+		tableName = "piezas";
+		jack.insertData(con, dbName, tableName, query);
+
+		query = "insert proveedores (Id, Nombre) values ('AB01', 'Proveedor 1'), ('AB02', 'Proveedor 2'), ('AB03', 'Proveedor 3'), ('AB04', 'Proveedor 4'), ('AB05', 'Proveedor 5'), ('AB06', 'Proveedor 6'), ('AB07', 'Proveedor 7'), ('AB08', 'Proveedor 8'), ('AB09', 'Proveedor 9'), ('AB10', 'Proveedor 10');";
+		tableName = "proveedores";
+		jack.insertData(con, dbName, tableName, query);
+		
+		query = "insert suministra (CodigoPieza, IdProveedor, Precio) values (1, 'AB01', 10), (2, 'AB01', 12), (1, 'AB02', 20), (3, 'AB05', 8), (4, 'AB08', 10), (6, 'AB09', 7), (7, 'AB07', 17), (9, 'AB10', 12), (5, 'AB03', 20), (10, 'AB04', 10);";
+		tableName = "suministra";
+		jack.insertData(con, dbName, tableName, query);
+
+		// Finally we close the connection
+		jack.closeConnection(con);
+
+		// We show a message if everything went well
+		JOptionPane.showMessageDialog(null, "The inserts have been correct.");
+	}
+	
+	/**
+	 * This method executes the nineth exercise of the task
+	 */
+	public static void executeExercise9() throws ClassNotFoundException{
+
+		// We do the connection
+		Connection con = jack.connection(ip, user, pass);
+		
+		// We initialize the query to create the database
+		String query = "CREATE DATABASE  IF NOT EXISTS `TA18_DB`;";
+		jack.createDB(dbName, con, query);
+
+		// We create the tables
+		query = "create table piezas (Codigo int auto_increment, Nombre nvarchar(100) not null, constraint pk_piezas primary key (codigo));";
+		String tableName = "piezas";
+		jack.createTable(con, dbName, tableName, query);
+
+		query = "create table facultad (Codigo int auto_increment,  Nombre nvarchar(100) not null, constraint primary key (Codigo));";
+		tableName = "facultad";
+		jack.createTable(con, dbName, tableName, query);
+		
+		query = "create table investigadores ( 	DNI varchar(8), NomApels nvarchar(255), Facultad int, constraint primary key (DNI), constraint foreign key (Facultad) references facultad (Codigo) );";
+		tableName = "investigadores";
+		jack.createTable(con, dbName, tableName, query);
+		
+		query = "create table equipos ( NumSerie char(4), Nombre nvarchar(100), Facultad int, constraint primary key (NumSerie), constraint foreign key (Facultad) references facultad (Codigo) );";
+		tableName = "equipos";
+		jack.createTable(con, dbName, tableName, query);
+		
+		query = "create table reserva ( DNI varchar(8), NumSerie char(4), Comienzo datetime, Fin datetime, constraint foreign key (DNI) references investigadores (DNI) on delete cascade on update cascade, constraint foreign key (NumSerie) references equipos (NumSerie) on delete cascade on update cascade, primary key (DNI, NumSerie));";
+		tableName = "reserva";
+		jack.createTable(con, dbName, tableName, query);
+
+		// Finally we insert registers into the tables
+		query = "insert into facultad (Nombre) values ('Universidad de Harvard'), ('Universidad de Oxford'), ('Unbiversidad de Cambridge'), ('Universidad de Berlín'), ('Universidad de Guanajuato'), ('Universidad de Hamburgo'), ('Universidad de Múnich'), ('Universidad de Bonn'), ('Universidad de Friburgo'), ('Universidad de Aquisgrán');";
+		tableName = "facultad";
+		jack.insertData(con, dbName, tableName, query);
+
+		query = "insert into investigadores (DNI, NomApels, Facultad) values ('0000000A', 'Ernst Müller', 4), ('1111111R', 'Edelina Shultz', 10), ('2222222H', 'Erika Bauer', 7), ('3333333Q', 'Pacheco Mendoza Moreno', 5), ('4444444T', 'Alexander Bonham', 2), ('5555555G', 'Hans Klein', 2), ('6666666K', 'Wanda Schwarz', 3), ('7777777D', 'Otilia Günther', 3), ('8888888P', 'Helmut Kraus', 7), ('9999999F', 'Emma Winter', 7);";
+		tableName = "investigadores";
+		jack.insertData(con, dbName, tableName, query);
+		
+		query = "insert into equipos (NumSerie, Nombre, Facultad) values ('T001','HARVAR_TEAM', 1), ('T002','OXFORD_TEAM', 2), ('T003','CAMBRI_TEAM', 3), ('T004','BERLIN_TEAM', 4), ('T005','GUANAJ_TEAM', 5), ('T006','HAMBUR_TEAM', 6), ('T007','MUNICH_TEAM', 7), ('T008','DEBONN_TEAM', 8), ('T009','FRIBUR_TEAM', 9), ('T010','AQUISG_TEAM', 10);";
+		tableName = "equipos";
+		jack.insertData(con, dbName, tableName, query);
+		
+		query = "insert into reserva (DNI, NumSerie, Comienzo, Fin) values ('0000000A', 'T004', '2021-01-07', '2021-07-22'), ('1111111R', 'T010', '2021-03-07', '2021-08-25'), ('2222222H', 'T007', '2019-03-31', '2021-12-18'), ('3333333Q', 'T005', '2018-06-23', '2021-07-28'), ('4444444T', 'T002', '2022-01-07', '2022-05-08'), ('5555555G', 'T002', '2020-02-12', '2021-07-22'), ('6666666K', 'T003', '2021-01-07', '2021-07-22'), ('7777777D', 'T003', '2017-04-09', '2019-03-12'), ('8888888P', 'T007', '2021-02-19', '2021-04-05'), ('9999999F', 'T007', '2021-01-18', '2021-11-14');";
+		tableName = "reserva";
 		jack.insertData(con, dbName, tableName, query);
 
 		// Finally we close the connection
