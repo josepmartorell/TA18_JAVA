@@ -1,6 +1,7 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import javax.swing.JOptionPane;
 
@@ -19,12 +20,10 @@ public class Fastjack {
 		Connection c = null;
 
 		try{
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			JOptionPane.showMessageDialog(null, "Driver charged successfully.");
 			//c = DriverManager.getConnection("jdbc:mysql://192.168.1.31:3306/"+database, username, password);
 			c = DriverManager.getConnection(ip, username, password);
 			JOptionPane.showMessageDialog(null, "SUCCESSFUL CONNECTION");
-		}catch(SQLException | ClassNotFoundException e){
+		}catch(SQLException e){
 			JOptionPane.showMessageDialog(null, e, "ERROR MESSAGE", 0);
 			e.printStackTrace();
 		}
@@ -46,4 +45,60 @@ public class Fastjack {
 		}
 
 	}
+	
+	
+	/**
+	 * Creates a database
+	 * 
+	 * @param con    Connection
+	 * @param dbName Name of the database
+	 * @param query  The query to execute
+	 * @throws ClassNotFoundException 
+	 */
+	public void createDB(String dbName, Connection con, String query) throws ClassNotFoundException {
+		try {
+			Statement st1 = con.createStatement();
+			st1.executeUpdate("drop database if exists "+dbName+";");
+			
+			Statement st2 = con.createStatement();
+			st2.executeUpdate(query);
+			JOptionPane.showMessageDialog(null, "Database created successfully.");
+
+		} catch (SQLException e) {
+			// Logger.getLogger(MySQL.class.getName()).log(Level.SEVERE, null, e);
+			System.out.println("Error code: " + e.getErrorCode() + "Message: " + e.getMessage() + "SQL State: "
+					+ e.getSQLState() + "Cause: " + e.getCause());
+			System.out.println("Error creating the database");
+		} finally {
+			closeConnection(con);
+		}
+	}
+	
+	/**
+	 * Creates a table
+	 * @throws ClassNotFoundException 
+	 */
+	public void createTable(Connection con, String dbName, String tableName, String query) throws ClassNotFoundException {
+		try {
+			String queryDB = "use " + dbName + ";";
+			Statement stdb = con.createStatement();
+			stdb.executeUpdate(queryDB);
+
+			Statement st = con.createStatement();
+			st.executeUpdate(query);
+			JOptionPane.showMessageDialog(null, "Table created successfully!");
+
+		} catch (SQLException ex) {
+			System.out.println(ex.getMessage());
+			JOptionPane.showMessageDialog(null, "Error creating table.");
+		}
+	}
+	
+	/**
+	 * Inserts register
+	 */
+	public void insertData(Connection con, String dbName, String tableName, String query) {
+		
+	}
+	
 }
