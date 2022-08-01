@@ -1,11 +1,18 @@
+import java.sql.*;
 
 public class MainApp {
 
-	public static void main(String[] args) {
+	final static String user = "remote";
+	final static String pass = "abcd1234";
+	final static String dbase = "actividades";
+	final static String ip = "jdbc:mysql://192.168.1.31:3306?useTimezone=true&serverTimezone=UTC";
+	
+	public static void main(String[] args) throws ClassNotFoundException {
 		// TODO Auto-generated method stub
 		Fastjack jack = new Fastjack();
-		jack.connection("UD18_03_almacenes", "remote", "PASSWORD");
-
+		
+		Connection c = jack.connection(ip, dbase, user, pass);
+		
+		jack.closeConnection(c);
 	}
-
 }
