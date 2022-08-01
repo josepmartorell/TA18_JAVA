@@ -8,8 +8,7 @@ import javax.swing.JOptionPane;
 public class Fastjack {
 
 	public Fastjack() {
-		super();
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	/**
@@ -19,11 +18,10 @@ public class Fastjack {
 
 		Connection c = null;
 
-		try{
-			//c = DriverManager.getConnection("jdbc:mysql://192.168.1.31:3306/"+database, username, password);
+		try {
 			c = DriverManager.getConnection(ip, username, password);
-			JOptionPane.showMessageDialog(null, "SUCCESSFUL CONNECTION");
-		}catch(SQLException e){
+			JOptionPane.showMessageDialog(null, "Successfull connection.");
+		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, e, "ERROR MESSAGE", 0);
 			e.printStackTrace();
 		}
@@ -36,30 +34,29 @@ public class Fastjack {
 	 */
 	public void closeConnection(Connection c) throws ClassNotFoundException {
 
-		try{
+		try {
 			c.close();
-			JOptionPane.showMessageDialog(null, "THE CONNECTION WITH THE SERVER HAS BEEN TERMINATED");
-		}catch(SQLException e){
+			JOptionPane.showMessageDialog(null, "Connection closed.");
+		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, e, "ERROR MESSAGE", 0);
 
 		}
 
 	}
-	
-	
+
 	/**
 	 * Creates a database
 	 * 
 	 * @param con    Connection
 	 * @param dbName Name of the database
 	 * @param query  The query to execute
-	 * @throws ClassNotFoundException 
+	 * @throws ClassNotFoundException
 	 */
 	public void createDB(String dbName, Connection con, String query) throws ClassNotFoundException {
 		try {
 			Statement st1 = con.createStatement();
-			st1.executeUpdate("drop database if exists "+dbName+";");
-			
+			st1.executeUpdate("drop database if exists " + dbName + ";");
+
 			Statement st2 = con.createStatement();
 			st2.executeUpdate(query);
 			JOptionPane.showMessageDialog(null, "Database created successfully.");
@@ -71,38 +68,37 @@ public class Fastjack {
 			System.out.println("Error creating the database");
 		}
 	}
-	
+
 	/**
 	 * Creates a table
-	 * @throws ClassNotFoundException 
+	 * 
+	 * @throws ClassNotFoundException
 	 */
-	public void createTable(Connection con, String dbName, String tableName, String query) throws ClassNotFoundException {
+	public void createTable(Connection con, String dbName, String tableName, String query)
+			throws ClassNotFoundException {
 		try {
-			
-			
+
 			String queryDB = "use " + dbName + ";";
 			Statement stdb = con.createStatement();
 			stdb.executeUpdate(queryDB);
-			
-//			String queryDB1 = "drop table if exists " + tableName + ";";
-//			Statement stdb1 = con.createStatement();
-//			stdb.executeUpdate(queryDB1);
 
 			Statement st = con.createStatement();
 			st.executeUpdate(query);
-			JOptionPane.showMessageDialog(null, "Table created successfully!");
+			JOptionPane.showMessageDialog(null, "Table created successfully.");
 
 		} catch (SQLException ex) {
 			System.out.println(ex.getMessage());
 			JOptionPane.showMessageDialog(null, "Error creating table.");
 		}
 	}
-	
+
 	/**
 	 * Inserts register
-	 * @throws ClassNotFoundException 
+	 * 
+	 * @throws ClassNotFoundException
 	 */
-	public void insertData(Connection con, String dbName, String tableName, String query) throws ClassNotFoundException {
+	public void insertData(Connection con, String dbName, String tableName, String query)
+			throws ClassNotFoundException {
 		try {
 			String queryDB = "use " + dbName + ";";
 			Statement stdb = con.createStatement();
@@ -110,11 +106,10 @@ public class Fastjack {
 
 			Statement st = con.createStatement();
 			st.executeUpdate(query);
-			JOptionPane.showMessageDialog(null, "Data stored correctly!");
+			JOptionPane.showMessageDialog(null, "Data stored correctly.");
 		} catch (SQLException ex) {
 			System.out.println(ex.getMessage());
 			JOptionPane.showMessageDialog(null, "Error creating table.");
 		}
 	}
-	
 }
