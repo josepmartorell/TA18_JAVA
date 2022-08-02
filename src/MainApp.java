@@ -5,7 +5,7 @@ import javax.swing.JOptionPane;
 public class MainApp {
 
 	final static String user = "remote";
-	final static String pass = "Kiku2014-";
+	final static String pass = "PASSWORD";
 	final static String ip = "jdbc:mysql://192.168.1.129:3306?useTimezone=true&serverTimezone=UTC";
 	final static String dbName = "TA18_DB";
 
