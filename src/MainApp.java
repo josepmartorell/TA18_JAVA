@@ -3,10 +3,11 @@ import java.sql.*;
 import javax.swing.JOptionPane;
 
 public class MainApp {
-
+	// IMPORTANT
+	// Please, before starting the program, change user, password and ip of the server to do a successful connection
 	final static String user = "remote";
 	final static String pass = "PASSWORD";
-	final static String ip = "jdbc:mysql://192.168.1.129:3306?useTimezone=true&serverTimezone=UTC";
+	final static String ip = "jdbc:mysql://localhost:3306?useTimezone=true&serverTimezone=UTC";
 	final static String dbName = "TA18_DB";
 
 	// Initialize class MySQL to use its methods
@@ -29,7 +30,7 @@ public class MainApp {
 			// If everything fine, we call the menu
 			initializeMenu();
 		} catch (ClassNotFoundException e) {
-			System.out.println("Error charging the Driver for MySQL connection.");
+			JOptionPane.showMessageDialog(null, "Error charging the Driver for MySQL connection.", "ERROR", 0);
 			System.out.println("Message: " + e.getMessage() + "Cause: " + e.getCause());
 		}
 	}
