@@ -5,8 +5,8 @@ import javax.swing.JOptionPane;
 public class MainApp {
 
 	final static String user = "remote";
-	final static String pass = "PASSWORD";
-	final static String ip = "jdbc:mysql://192.168.1.14:3306?useTimezone=true&serverTimezone=UTC";
+	final static String pass = "Kiku2014-";
+	final static String ip = "jdbc:mysql://192.168.1.129:3306?useTimezone=true&serverTimezone=UTC";
 	final static String dbName = "TA18_DB";
 
 	// Initialize class MySQL to use its methods
@@ -188,7 +188,7 @@ public class MainApp {
 		tableName = "Almacenes";
 		jack.insertData(con, dbName, tableName, query);
 
-		query = "insert into Cajas ('0MN7','Rocks',180,3),\r\n"
+		query = "insert into Cajas (numReferencia, contenido, valor, almacen) values ('0MN7','Rocks',180,3),\r\n"
 				+ "						   	('4H8P','Rocks',250,1),\r\n"
 				+ "                           ('4RT3','Scissors',190,4),\r\n"
 				+ "                           ('7G3H','Rocks',200,1),\r\n"
@@ -245,7 +245,7 @@ public class MainApp {
 		tableName = "Peliculas";
 		jack.insertData(con, dbName, tableName, query);
 
-		query = "insert into Salas (1,'Odeon',5),\r\n"
+		query = "insert into Salas (codigo, nombre, pelicula) values (1,'Odeon',5),\r\n"
 				+ "						   (2,'Imperial',1),\r\n"
 				+ "                           (3,'Majestic',NULL),\r\n"
 				+ "                           (4,'Royale',6),\r\n"
@@ -435,7 +435,7 @@ public class MainApp {
 		tableName = "maquinas_registradoras";
 		jack.insertData(con, dbName, tableName, query);	
 		
-		query = "INSERT INTO `productos` VALUES ((1, 'Bañera', 124.99),\r\n"
+		query = "INSERT INTO `productos` VALUES (1, 'Bañera', 124.99),\r\n"
 				+ "							   (2, 'bufanda', 11.99),\r\n"
 				+ "							   (3, 'chubasquero', 100.69),\r\n"
 				+ "							   (4, 'armilla', 599.99),\r\n"
@@ -446,7 +446,7 @@ public class MainApp {
 				+ "							   (9, 'freidora', 599.99),\r\n"
 				+ "							   (10, 'jamón serrano', 789.99),\r\n"
 				+ "							   (11, 'leghuga', 35.99),\r\n"
-				+ "							   (12, 'berenjena', 9.99));";
+				+ "							   (12, 'berenjena', 9.99);";
 		tableName = "productos";
 		jack.insertData(con, dbName, tableName, query);	
 		
